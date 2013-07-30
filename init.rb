@@ -5,4 +5,6 @@ Redmine::Plugin.register :payrolls do
   version '0.0.1'
   url 'http://github.com/webgradus/payrolls'
   author_url 'http://webgradus.ru'
+
+  settings :default => {'empty' => true}, :partial => 'settings/payrolls_settings'
 end
