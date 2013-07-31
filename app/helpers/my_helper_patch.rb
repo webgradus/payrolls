@@ -9,7 +9,7 @@ module MyHelperPatch
       entries_total_cost = 0
       grouped_entries = entries.group_by(&:issue)
       grouped_entries.each do |issue, entries|
-        all_issue_entries = TimeEntry.on_issue(issue).spent_between(Date.today - 6, Date.today)
+        all_issue_entries = TimeEntry.on_issue(issue).spent_between(Date.today - 6, Date.today).where("time_entries.created_on < ?", entries.first.created_on)
         estimated_hours = issue.estimated_hours - (all_issue_entries - entries).sum(&:hours)
         user_issue_hours = entries.sum(&:hours)
         if user_issue_hours <= estimated_hours
