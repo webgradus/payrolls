@@ -1,0 +1,14 @@
+<h3>
+  <%= l(:label_spent_time) %>
+  (<%= l(:label_current_month) %>)
+</h3>
+<%
+entries = month_timelog_items
+%>
+
+<div class="total-hours">
+<p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
+<!-- payroll calculating -->
+<p><%= l(:label_total_cost) %>: <%= entries_total_cost(entries) %></p>
+<!-- payroll calculating -->
+</div>

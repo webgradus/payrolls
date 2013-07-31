@@ -10,7 +10,8 @@ entries_by_day = entries.group_by(&:spent_on)
 <div class="total-hours">
 <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
 <!-- payroll calculating -->
-<p><%= l(:label_total_time) %>: <%= entries.sum(&:hours).to_f * Setting.plugin_payrolls['developer_rate'].to_f %></p>
+<p><%= l(:label_total_cost) %>: <%= entries_total_cost(entries) %></p>
+<!-- payroll calculating -->
 </div>
 
 <% if entries.any? %>

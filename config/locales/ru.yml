@@ -1,0 +1,7 @@
+ru:
+  developer_rate: "Ставка разработчика"
+  label_total_cost: "Общая стоимость"
+  label_current_month: "Текущий месяц"
+  my:
+    blocks:
+      monthtotals: "Итого (месяц)"

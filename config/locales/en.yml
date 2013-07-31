@@ -1,3 +1,9 @@
 # English strings go here for Rails i18n
 en:
   # my_label: "My label"
+  developer_rate: "Developer Rate"
+  label_total_cost: "Total cost"
+  label_current_month: "Current Month"
+  my:
+    blocks:
+      monthtotals: "Month totals"
