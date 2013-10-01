@@ -2,8 +2,11 @@
 en:
   # my_label: "My label"
   developer_rate: "Developer Rate"
+  trainee_rate: "Trainee Rate"
   label_total_cost: "Total cost"
   label_current_month: "Current Month"
+  # Trainee Role name
+  trainee: "Trainee"
   my:
     blocks:
       monthtotals: "Month totals"

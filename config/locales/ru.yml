@@ -1,7 +1,10 @@
 ru:
   developer_rate: "Ставка разработчика"
+  trainee_rate: "Ставка стажёра"
   label_total_cost: "Общая стоимость"
   label_current_month: "Текущий месяц"
+  # Trainee Role name
+  trainee: "Стажёр"
   my:
     blocks:
       monthtotals: "Итого (месяц)"
