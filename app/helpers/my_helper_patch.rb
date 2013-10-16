@@ -10,7 +10,7 @@ module MyHelperPatch
       grouped_entries = entries.group_by(&:issue)
       grouped_entries.each do |issue, entries|
         project = issue.project
-        rate = if issue.assigned_to.roles_for_project(project).map(&:name).include?(t("trainee"))
+        rate = if issue.assigned_to && issue.assigned_to.roles_for_project(project).map(&:name).include?(t("trainee"))
             Setting.plugin_payrolls['trainee_rate'].to_f
         else
             Setting.plugin_payrolls['developer_rate'].to_f
