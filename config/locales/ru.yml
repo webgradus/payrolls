@@ -1,7 +1,10 @@
 ru:
   developer_rate: "Ставка разработчика"
   trainee_rate: "Ставка стажёра"
-  label_total_cost: "Общая стоимость"
+  label_total_cost_60: "Фиксированная часть (60%)"
+  label_total_cost_30: "Переменная часть (30%)"
+  label_total_cost_10: "Бонусная часть за качество (10%)"
+  label_total_cost: "Итоговая зарплата"
   label_current_month: "Текущий месяц"
   # Trainee Role name
   trainee: "Стажёр"
