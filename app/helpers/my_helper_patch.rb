@@ -20,9 +20,9 @@ module MyHelperPatch
         user_issue_hours = entries.sum(&:hours)
         if user_issue_hours <= estimated_hours
           entries_total_cost += user_issue_hours.to_f * rate
-        else
-          entries_total_cost += estimated_hours.to_f * rate
-          entries_total_cost += (estimated_hours - user_issue_hours).to_f * (rate / 2)
+        #else
+          #entries_total_cost += estimated_hours.to_f * rate
+          #entries_total_cost += (estimated_hours - user_issue_hours).to_f * (rate / 2)
         end
       end
       entries_total_cost
