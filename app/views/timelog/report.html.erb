@@ -66,13 +66,24 @@
   <% end -%>
   <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
   <% entries = @report.instance_variable_get("@scope") %>
-  <td class="hours"><%= entries_total_cost(entries) * 0.6 if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries) * 0.3 if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries) * 0.1 if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries) if entries %></td>
+  <td class="hours" style="color:green;"><%= entries_total_cost(entries).sum {|e| e[0.6]} if entries %></td>
+  <td class="hours"><%= entries_total_cost(entries).sum {|e| e[0.3]} if entries %></td>
+  <td class="hours"><%= entries_total_cost(entries).sum {|e| e[0.1]} if entries %></td>
+  <td class="hours"><%= entries_total_cost(entries).sum {|e| e[0.6] + e[0.3] + e[0.1]} if entries %></td>
   </tr>
 </tbody>
 </table>
+
+<dl>
+  <dt style="color:green;">60% зелёные</dt>
+  <dd>Гарантированная часть, выплачиваемая при любых условиях</dd>
+  <dt style="color:red;">30% красные</dt>
+  <dd>С пометкой "просрочена" для задач, у которых затраченное время > оценки задачи</dd>
+  <dt style="color: orange;">30% оранжевые</dt>
+   <dd>С пометкой "не оплачена клиентом" или "не закрыта" - 30% в конце месяца переносятся на след. месяц до тех пор, пока задача не станет оплаченной и "закрытой"</dd>
+  <dt style="color:red;">10% красные</dt>
+  <dd>С пометкой "не прошёл проверку на качество" - задачи или проекты, которые не прошли проверку на качество</dd>
+</dl>
 </div>
 
 <% other_formats_links do |f| %>

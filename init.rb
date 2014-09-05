@@ -2,6 +2,8 @@ Rails.configuration.to_prepare do
   require File.expand_path(File.join(File.dirname(__FILE__), "app/helpers/my_helper_patch"))
   ApplicationHelper.send     :include, MyHelperPatch
   UserPreference.send :include, UserPreferencePatch
+  Issue.send :include, IssuePatch
+  Project.send :include, ProjectPatch
 end
 
 Redmine::Plugin.register :payrolls do

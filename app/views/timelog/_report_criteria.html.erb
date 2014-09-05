@@ -11,14 +11,27 @@
     <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
   <% end -%>
   <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
-  <% entries = @report.instance_variable_get("@scope") %>  
+  <% entries = @report.instance_variable_get("@scope") %>
 
     <% entries = entries.where("#{criterias[level]}_id = ?", value) %>
 
-  <td class="hours"><%= entries_total_cost(entries) * 0.6 if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries) * 0.3 if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries) * 0.1 if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries) if entries %></td>
+    <% entries_total_cost = entries_total_cost(entries) %>
+  <td class="hours" style="color:green;"><%= entries_total_cost.sum {|e| e[0.6]} if entries %></td>
+  <td class="hours">
+    <%= entries_total_cost.sum {|e| e[0.3]} if entries %>
+    <% if entries_total_cost.length == 1 && [:not_closed, :overdue, :not_paid].include?(entries_total_cost.first[:state]) %>
+      <br>
+      <span style="color:<%= entries_total_cost.first[:state] == :overdue ? "red" : "orange" %>;font-size:10px;"><%= t("issue_states.#{entries_total_cost.first[:state]}") %></span>
+    <% end %>
+  </td>
+  <td class="hours">
+    <%= entries_total_cost.sum {|e| e[0.1]} if entries %>
+    <% if entries_total_cost.sum {|e| e[0.1]} ==  0 %>
+      <br>
+      <span style="color:red;font-size:10px;"><%= t("issue_states.not_passed_quality_check") %></span>
+    <% end %>
+  </td>
+  <td class="hours"><%= entries_total_cost.sum {|e| e[0.6] + e[0.3] + e[0.1]} if entries %></td>
 </tr>
 <% if criterias.length > level+1 -%>
   <%= render(:partial => 'report_criteria', :locals => {:criterias => criterias, :hours => hours_for_value, :level => (level + 1)}) %>

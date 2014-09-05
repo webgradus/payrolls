@@ -1,4 +1,11 @@
 ru:
+  issue_states:
+    overdue: "просрочена"
+    not_closed: "не закрыта"
+    not_paid: "не оплачена клиентом"
+    not_passed_quality_check: "не прошёл проверку на качество"
+  paid_by_client: "Оплачена клиентом"
+  passed_quality_check: "Прошёл проверку на качество"
   developer_rate: "Ставка разработчика"
   trainee_rate: "Ставка стажёра"
   label_total_cost_60: "Фиксированная часть (60%)"
