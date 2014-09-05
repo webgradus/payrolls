@@ -10,7 +10,7 @@ entries_by_day = entries.group_by(&:spent_on)
 <div class="total-hours">
 <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
 <!-- payroll calculating -->
-<p><%= l(:label_total_cost) %>: <%= entries_total_cost(entries) %></p>
+<p><%= l(:label_total_cost) %>: <%= entries_total_cost(entries).sum {|e| e[0.6] + e[0.3] + e[0.1]} %></p>
 <!-- payroll calculating -->
 </div>
 
