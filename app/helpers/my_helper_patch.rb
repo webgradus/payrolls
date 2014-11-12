@@ -25,7 +25,8 @@ module MyHelperPatch
                         end
           issue_total = user_issue_hours.to_f * rate
           issue_60_percent_part = issue_total * 0.6
-          issue_30_percent_part = [:overdue, :not_closed, :not_paid].include?(issue_state) ? 0 : issue_total * 0.3
+          #issue_30_percent_part = [:overdue, :not_closed, :not_paid].include?(issue_state) ? 0 : issue_total * 0.3
+          issue_30_percent_part = issue_total * 0.3
           issue_10_percent_part = issue.project.quality? ? issue_total * 0.1 : 0
           entries_total_cost_array << {0.6 => issue_60_percent_part, 0.3 => issue_30_percent_part, 0.1 => issue_10_percent_part, :state => issue_state}
         #else
