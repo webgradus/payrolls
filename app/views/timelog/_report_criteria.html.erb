@@ -13,7 +13,7 @@
   <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
   <% entries = @report.instance_variable_get("@scope") %>
 
-    <% entries = entries.where("#{criterias[level]}_id = ?", value) %>
+    <% entries = select_entries(entries, criterias, level, hours_for_value) %>
 
     <% entries_total_cost = entries_total_cost(entries) %>
   <td class="hours" style="color:green;"><%= entries_total_cost.sum {|e| e[0.6]} if entries %></td>

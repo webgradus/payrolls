@@ -5,6 +5,14 @@ module MyHelperPatch
 
   module InstanceMethods
 
+    def select_entries(entries, criterias, level, hours_for_value)
+        scope = entries
+        (0..level).each do |l|
+            scope = scope.where("#{criterias[l]}_id in (?)", hours_for_value.map {|h| h[criterias[l]] })
+        end
+        scope
+    end
+
     def entries_total_cost(entries)
       entries_total_cost_array = []
       grouped_entries = entries.group_by(&:issue)
