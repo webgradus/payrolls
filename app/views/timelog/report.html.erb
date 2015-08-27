@@ -1,14 +1,14 @@
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'new', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time-add' %>
+<%= link_to l(:button_log_time),
+            _new_time_entry_path(@project, @issue),
+            :class => 'icon icon-time-add' if User.current.allowed_to?(:log_time, @project, :global => true) %>
 </div>
 
 <%= render_timelog_breadcrumb %>
 
 <h2><%= l(:label_spent_time) %></h2>
 
-<%= form_tag({:controller => 'timelog', :action => 'report',
-              :project_id => @project, :issue_id => @issue},
-            :method => :get, :id => 'query_form') do %>
+<%= form_tag(params.slice(:project_id, :issue_id), :method => :get, :id => 'query_form') do %>
   <% @report.criteria.each do |criterion| %>
     <%= hidden_field_tag 'criteria[]', criterion, :id => nil %>
   <% end %>
@@ -23,8 +23,8 @@
   <label for='criterias'><%= l(:button_add) %></label>: <%= select_tag('criteria[]', options_for_select([[]] + (@report.available_criteria.keys - @report.criteria).collect{|k| [l_or_humanize(@report.available_criteria[k][:label]), k]}),
                                                           :onchange => "this.form.submit();",
                                                           :style => 'width: 200px',
-                                                          :id => nil,
-                                                          :disabled => (@report.criteria.length >= 3), :id => "criterias") %>
+                                                          :disabled => (@report.criteria.length >= 3),
+                                                          :id => "criterias") %>
      <%= link_to l(:button_clear), {:project_id => @project, :issue_id => @issue, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @report.columns}, :class => 'icon icon-reload' %></p>
 <% end %>
 
@@ -41,17 +41,12 @@
 <% @report.criteria.each do |criteria| %>
   <th><%= l_or_humanize(@report.available_criteria[criteria][:label]) %></th>
 <% end %>
-<% columns_width = (40 / (@report.periods.length+2)).to_i %>
+<% columns_width = (40 / (@report.periods.length+1)).to_i %>
 <% @report.periods.each do |period| %>
-  <th class="period" width="<%= columns_width %>%"><%= period %></th>
+  <th class="period" style="width:<%= columns_width %>%;"><%= period %></th>
 <% end %>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_time) %></th>
-  <!-- additional column for total cost -->
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_cost_60) %></th>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_cost_30) %></th>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_cost_10) %></th>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total_cost) %></th>
-  <!-- additional column for total cost -->
+  <th class="total" style="width:<%= columns_width %>%;"><%= l(:label_total_time) %></th>
+  <th class="total" style="width:<%= columns_width %>%;"><%= l(:label_total_cost) %></th>
 </tr>
 </thead>
 <tbody>
@@ -66,24 +61,10 @@
   <% end -%>
   <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
   <% entries = @report.instance_variable_get("@scope") %>
-  <td class="hours" style="color:green;"><%= entries_total_cost(entries).sum {|e| e[0.6]} if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries).sum {|e| e[0.3]} if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries).sum {|e| e[0.1]} if entries %></td>
-  <td class="hours"><%= entries_total_cost(entries).sum {|e| e[0.6] + e[0.3] + e[0.1]} if entries %></td>
+  <td class="hours"><%= entries_total_cost(entries) if entries %></td>
   </tr>
 </tbody>
 </table>
-
-<dl>
-  <dt style="color:green;">60% зелёные</dt>
-  <dd>Гарантированная часть, выплачиваемая при любых условиях</dd>
-  <dt style="color:red;">30% красные</dt>
-  <dd>С пометкой "просрочена" для задач, у которых затраченное время > оценки задачи</dd>
-  <dt style="color: orange;">30% оранжевые</dt>
-   <dd>С пометкой "не оплачена клиентом" или "не закрыта" - 30% в конце месяца переносятся на след. месяц до тех пор, пока задача не станет оплаченной и "закрытой"</dd>
-  <dt style="color:red;">10% красные</dt>
-  <dd>С пометкой "не прошёл проверку на качество" - задачи или проекты, которые не прошли проверку на качество</dd>
-</dl>
 </div>
 
 <% other_formats_links do |f| %>

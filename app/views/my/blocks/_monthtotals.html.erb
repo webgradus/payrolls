@@ -9,10 +9,6 @@ entries_total_cost = entries_total_cost(entries)
 
 <div class="total-hours">
 <p><%= l(:label_total_time) %>: <%= html_hours("%.2f" % entries.sum(&:hours).to_f) %></p>
-<!-- payroll calculating -->
-<p><%= l(:label_total_cost_60) %>: <%= entries_total_cost.sum {|e| e[0.6]} %></p>
-<p><%= l(:label_total_cost_30) %>: <%= entries_total_cost.sum {|e| e[0.3]} %></p>
-<p><%= l(:label_total_cost_10) %>: <%= entries_total_cost.sum {|e| e[0.1]} %></p>
-<p><%= l(:label_total_cost) %>: <%= entries_total_cost.sum {|e| e[0.6] + e[0.3] + e[0.1]} %></p>
+<p><%= l(:label_total_cost) %>: <%= entries_total_cost %></p>
 <!-- payroll calculating -->
 </div>
