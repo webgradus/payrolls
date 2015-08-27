@@ -10,7 +10,7 @@ Redmine::Plugin.register :payrolls do
   name 'Payrolls plugin'
   author 'Gradus'
   description 'Payrolls plugin for Redmine'
-  version '0.0.1'
+  version '0.1.0'
   url 'http://github.com/webgradus/payrolls'
   author_url 'http://webgradus.ru'
 
