@@ -14,7 +14,18 @@ module MyHelperPatch
     end
 
     def entries_total_cost(entries)
-      entries.sum(&:cost)
+      entries_total_cost = 0
+      grouped_entries = entries.group_by(&:issue)
+      grouped_entries.each do |issue, entries|
+        user_issue_hours = entries.sum(&:hours)
+        rate = issue.assigned_to ? Rate.amount_for(issue.assigned_to, issue.project) : 0
+        if user_issue_hours > (issue.estimated_hours || 0)
+          entries_total_cost += (issue.estimated_hours || 0).to_f * rate
+        else
+          entries_total_cost += entries.sum(&:cost)
+        end
+      end
+      entries_total_cost
     end
 
     def month_timelog_items
