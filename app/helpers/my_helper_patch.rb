@@ -18,7 +18,7 @@ module MyHelperPatch
       grouped_entries = entries.group_by(&:issue)
       grouped_entries.each do |issue, entries|
         user_issue_hours = entries.sum(&:hours)
-        rate = issue.assigned_to ? Rate.amount_for(issue.assigned_to, issue.project) : 0
+        rate = issue.assigned_to ? Rate.amount_for(issue.assigned_to, issue.project).to_i : 0
         if user_issue_hours > (issue.estimated_hours || 0)
           entries_total_cost += (issue.estimated_hours || 0).to_f * rate
         else
