@@ -1,3 +1,4 @@
+require_dependency 'application_helper'
 module MyHelperPatch
   def self.included(base)
     base.send :include, InstanceMethods
@@ -36,4 +37,7 @@ module MyHelperPatch
         all
     end
   end
+end
+unless ApplicationHelper.included_modules.include? MyHelperPatch
+    ApplicationHelper.send(:include, MyHelperPatch)
 end
