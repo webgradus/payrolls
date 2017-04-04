@@ -4,6 +4,7 @@ ru:
     not_closed: "не закрыта"
     not_paid: "не оплачена клиентом"
     not_passed_quality_check: "не прошёл проверку на качество"
+  unpaid: "Неоплачиваемый"
   paid_by_client: "Оплачена клиентом"
   passed_quality_check: "Прошёл проверку на качество"
   developer_rate: "Ставка разработчика"

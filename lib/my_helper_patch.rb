@@ -18,6 +18,7 @@ module MyHelperPatch
       entries_total_cost = 0
       grouped_entries = entries.group_by(&:issue)
       grouped_entries.each do |issue, entries|
+        next if issue.project.unpaid?
         user_issue_hours = entries.sum(&:hours)
         rate = issue.assigned_to ? Rate.amount_for(entries.first.user, issue.project).to_i : 0
         if user_issue_hours > (issue.estimated_hours || 0)
@@ -32,9 +33,9 @@ module MyHelperPatch
     def month_timelog_items
       TimeEntry.
         where("#{TimeEntry.table_name}.user_id = ? AND #{TimeEntry.table_name}.spent_on BETWEEN ? AND ?", User.current.id, Date.today.at_beginning_of_month, Date.today).
-        includes(:activity, :project, {:issue => [:tracker, :status]}).
+        joins(:activity, :project, {:issue => [:tracker, :status]}).
         order("#{TimeEntry.table_name}.spent_on DESC, #{Project.table_name}.name ASC, #{Tracker.table_name}.position ASC, #{Issue.table_name}.id ASC").
-        all
+        to_a
     end
   end
 end
